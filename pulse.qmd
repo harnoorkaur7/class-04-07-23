@@ -47,15 +47,48 @@ Representativeness - may fail since our sample's age is younger than the age of 
 
 Unconfoundedness - Model is not causal.
 
-Formula - 
+Courage to fit the model:
 
 ```{r}
 x |>
-  ggplot(aes(x = pulse)) +
+  ggplot2::ggplot(aes(x = pulse)) +
   geom_histogram(bins = 40) +
   theme_minimal()
 
-obj <- stan_glm(data = x,
-                formula = pulse ~ 1
-                family = guassian)
+fit_obj <- stan_glm(data = x,
+                formula = pulse ~ 1,
+                family = gaussian,
+                refresh = 0,
+                seed = 9)
+
+fit_obj
+summary(fit_obj)
+```
+
+Temperance - We create posteriors of the quantities of interest. Using the model from courage to answer the questions.
+
+```{r}
+#| message: false
+newobs <- tibble(.rows = 2)
+
+pp <- posterior_predict(object = fit_obj,
+                      newdata = newobs) |> 
+        as_tibble()
+
+pp
+
+pp <- pp |>
+  mutate(pulse_diff = abs(`1`-`2`))
+
+pp |> 
+  ggplot(aes(x = pulse_diff)) +
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                   bins = 100) +
+    labs(title = "Posterior for Average Difference in Adult Female \nPulse",
+         x = "Difference (Absolute Value)",
+         y = "Probability",
+         caption = "Data source: NHANES") + 
+    scale_x_continuous(labels = scales::number_format(accuracy = 1)) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+    theme_classic() 
 ```

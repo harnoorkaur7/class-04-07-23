@@ -125,18 +125,90 @@ $ sleep          &lt;int&gt; 4, 4, 4, NA, 8, NA, NA, 8, 8, 8, 7, 5, 4, NA, 5, 7,
  Max.   :134.00                     </code></pre>
 </div>
 </div>
-<section id="wisdom" class="level1">
-<h1>Wisdom</h1>
-</section>
-<section id="units-female-students" class="level1">
-<h1>Units: Female students</h1>
-</section>
-<section id="outcome-pulse-rates" class="level1">
-<h1>Outcome: Pulse rates</h1>
-</section>
-<section id="covariates-gender" class="level1">
-<h1>Covariates: Gender?</h1>
-</section>
+<p>Wisdom</p>
+<p>Units: Female students Outcome: Pulse rates Covariates: Gender, Age Treatment: NA Preceptor Table Validity</p>
+<p>Justice</p>
+<p>Stability: May fail if measurement scenario is different; Data for 2010, we are measuring in 2023</p>
+<p>Representativeness - may fail since our sample’s age is younger than the age of women in the population.</p>
+<p>Unconfoundedness - Model is not causal.</p>
+<p>Courage to fit the model:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="pulse_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>stan_glm
+ family:       gaussian [identity]
+ formula:      pulse ~ 1
+ observations: 4308
+ predictors:   1
+------
+            Median MAD_SD
+(Intercept) 75.4    0.2  
+
+Auxiliary parameter(s):
+      Median MAD_SD
+sigma 11.9    0.1  
+
+------
+* For help interpreting the printed output see ?print.stanreg
+* For info on the priors used see ?prior_summary.stanreg</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model Info:
+ function:     stan_glm
+ family:       gaussian [identity]
+ formula:      pulse ~ 1
+ algorithm:    sampling
+ sample:       4000 (posterior sample size)
+ priors:       see help('prior_summary')
+ observations: 4308
+ predictors:   1
+
+Estimates:
+              mean   sd   10%   50%   90%
+(Intercept) 75.4    0.2 75.2  75.4  75.7 
+sigma       11.9    0.1 11.8  11.9  12.1 
+
+Fit Diagnostics:
+           mean   sd   10%   50%   90%
+mean_PPD 75.4    0.3 75.1  75.4  75.8 
+
+The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+
+MCMC diagnostics
+              mcse Rhat n_eff
+(Intercept)   0.0  1.0  2856 
+sigma         0.0  1.0  2829 
+mean_PPD      0.0  1.0  3562 
+log-posterior 0.0  1.0  1650 
+
+For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
+</div>
+</div>
+<p>Temperance - We create posteriors of the quantities of interest. Using the model from courage to answer the questions.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,000 × 2
+     `1`   `2`
+   &lt;dbl&gt; &lt;dbl&gt;
+ 1  61.7  82.8
+ 2  73.4  72.4
+ 3  70.2  61.0
+ 4  98.4  68.6
+ 5  96.8  87.7
+ 6  82.0  76.1
+ 7  86.4  91.7
+ 8  82.5  62.5
+ 9  66.0  80.3
+10  91.1  59.4
+# ℹ 3,990 more rows</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="pulse_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 </main>
 <!-- /main column -->
