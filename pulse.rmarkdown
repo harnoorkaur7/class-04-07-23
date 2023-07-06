@@ -1,0 +1,66 @@
+---
+title: "Predicting the Female Pulse Rate"
+format: html
+editor: visual
+execute: 
+  echo: false
+---
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(primer.data)
+library(rstanarm)
+```
+
+
+Question of interest: What is the difference in pulse rate between two randomly selected female students in this class?
+
+
+```{r}
+#| message: false
+
+glimpse(nhanes)
+summary(nhanes)
+
+x <- nhanes |> 
+  select(pulse, gender) |>
+  drop_na() |>
+  filter(gender == "Female")
+
+summary(x)
+```
+
+
+Wisdom
+
+Units: Female students
+Outcome: Pulse rates
+Covariates: Gender, Age
+Treatment: NA
+Preceptor Table
+Validity
+
+Justice
+
+Stability: May fail if measurement scenario is different; Data for 2010, we are measuring in 2023
+
+Representativeness - may fail since our sample's age is younger than the age of women in the population.
+
+Unconfoundedness - Model is not causal.
+
+Formula - 
+
+
+```{r}
+x |>
+  ggplot(aes(x = pulse)) +
+  geom_histogram(bins = 40) +
+  theme_minimal()
+
+obj <- stan_glm(data = x,
+                formula = pulse ~ 1
+                family = guassian)
+```
+
